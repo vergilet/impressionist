@@ -53,6 +53,7 @@ module ImpressionistController
     def associative_create_statement(query_params={})
       filter = ActionDispatch::Http::ParameterFilter.new(Rails.application.config.filter_parameters)
       user_agent = UserAgent.parse(request.env['HTTP_USER_AGENT'])
+      puts user_agent.inspect
       query_params.reverse_merge!(
         :controller_name => controller_name,
         :action_name => action_name,
