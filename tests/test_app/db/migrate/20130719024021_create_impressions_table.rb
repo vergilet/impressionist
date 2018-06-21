@@ -13,6 +13,7 @@ class CreateImpressionsTable < ActiveRecord::Migration
       t.text :message
       t.text :params
       t.text :referrer
+      t.text :user_agent
       t.timestamps
     end
     add_index :impressions, [:impressionable_type, :message, :impressionable_id], :name => "impressionable_type_message_index", :unique => false, :length => {:message => 255 }
@@ -24,6 +25,7 @@ class CreateImpressionsTable < ActiveRecord::Migration
     add_index :impressions, [:controller_name,:action_name,:session_hash], :name => "controlleraction_session_index", :unique => false
     add_index :impressions, [:impressionable_type, :impressionable_id, :params], :name => "poly_params_request_index", :unique => false
     add_index :impressions, :user_id
+    add_index :impressions, :user_agent
   end
 
   def self.down
