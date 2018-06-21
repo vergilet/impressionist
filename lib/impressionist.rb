@@ -1,4 +1,5 @@
 require 'impressionist/load'
+require 'useragent'
 
 module Impressionist
   # Define default ORM
