@@ -63,7 +63,7 @@ module ImpressionistController
         :ip_address => request.remote_ip,
         :referrer => request.referer,
         :params => filter.filter(params_hash),
-        :user_agent => "#{user_agent.browser} #{user_agent.version.split('.').first}"
+        :user_agent => "#{user_agent.browser} #{user_agent.version.to_a[0]}"
         )
     end
 
