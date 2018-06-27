@@ -53,6 +53,7 @@ module ImpressionistController
     def associative_create_statement(query_params={})
       filter = ActionDispatch::Http::ParameterFilter.new(Rails.application.config.filter_parameters)
       user_agent = ::UserAgent.parse(request.env['HTTP_USER_AGENT'])
+      lang = ['HTTP_ACCEPT_LANGUAGE']
       puts user_agent.inspect
       query_params.reverse_merge!(
         :controller_name => controller_name,
@@ -63,7 +64,9 @@ module ImpressionistController
         :ip_address => request.remote_ip,
         :referrer => request.referer,
         :params => filter.filter(params_hash),
-        :user_agent => "#{user_agent.browser} #{user_agent.version.to_a[0]}"
+        :user_agent => "#{user_agent.browser} #{user_agent.version.to_a[0]}",
+        :lang => lang,
+        :os => "#{user_agent.comment.join(',')}"
         )
     end
 
