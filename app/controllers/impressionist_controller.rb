@@ -53,8 +53,7 @@ module ImpressionistController
     def associative_create_statement(query_params={})
       filter = ActionDispatch::Http::ParameterFilter.new(Rails.application.config.filter_parameters)
       user_agent = ::UserAgent.parse(request.env['HTTP_USER_AGENT'])
-      lang = ['HTTP_ACCEPT_LANGUAGE']
-      puts user_agent.inspect
+      lang = request.env['HTTP_ACCEPT_LANGUAGE']
       query_params.reverse_merge!(
         :controller_name => controller_name,
         :action_name => action_name,
@@ -66,8 +65,8 @@ module ImpressionistController
         :params => filter.filter(params_hash),
         :user_agent => "#{user_agent.browser} #{user_agent.version.to_a[0]}",
         :lang => lang,
-        :os => "#{user_agent.comment.join(',')}"
-        )
+        :os => "#{user_agent.platform} #{user_agent.os}"
+      )
     end
 
     private
@@ -134,7 +133,7 @@ module ImpressionistController
       query_params.reverse_merge!(
         :impressionable_type => controller_name.singularize.camelize,
         :impressionable_id => impressionable.present? ? impressionable.id : params[:id]
-        )
+      )
       associative_create_statement(query_params)
     end
 
